@@ -11,20 +11,20 @@ public class MainActivity extends AppCompatActivity {
     private int[] mColors = {0xFFCCFF00, 0xFF6495ED, 0xFFE32636, 0xFF00FF00, 0xFF808000, 0xFFFF8C69, 0xFF808080,
             0xFFE6B800, 0xFF7CFC00};
     private int[] values = new int[]{20,15,55,10};
-    private CircleProressView mCPV;
+    private PiePercentView mCPV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mCPV = (CircleProressView) findViewById(R.id.cpv);
+        mCPV = (PiePercentView) findViewById(R.id.cpv);
         mCPV.setmData(initData());
     }
 
-    private List<CircleProressView.PieData> initData(){
-        List<CircleProressView.PieData> dataList = new ArrayList<>();
+    private List<PiePercentView.PieData> initData(){
+        List<PiePercentView.PieData> dataList = new ArrayList<>();
         for(int i=0;i<4;i++){
-            CircleProressView.PieData pieData = new CircleProressView.PieData();
+            PiePercentView.PieData pieData = new PiePercentView.PieData();
             pieData.setColor(mColors[i]);
             pieData.setName("a"+i);
             pieData.setPercent(values[i]/100f);

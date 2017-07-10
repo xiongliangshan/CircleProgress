@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.xls.circleprogress.CircleProressView
+    <com.xls.circleprogress.PiePercentView
         android:id="@+id/cpv"
         android:layout_width="300dp"
         android:layout_height="300dp"

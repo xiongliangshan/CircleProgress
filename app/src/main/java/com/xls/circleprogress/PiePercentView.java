@@ -17,35 +17,36 @@ import java.util.List;
  * Created by Administrator on 2017/7/10.
  */
 
-public class CircleProressView extends View {
+public class PiePercentView extends View {
 
     private static final String TAG  = "CircleProressView";
     private Paint mPaint;
     private Paint mTextPain;
-    private int mColor;
+    private int mArcTextColor;
+    private float mArcTextSize;
     private List<PieData> mData;
-    private int mStartAngle ;
+    private float mStartAngle ;
     private int mWidth;
     private int mHeight;
     private int mRadius;
 
 
-    public CircleProressView(Context context, @Nullable AttributeSet attrs) {
+    public PiePercentView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.CircleProressView);
-        mColor = a.getColor(R.styleable.CircleProressView_circleColor,Color.RED);
-        mStartAngle = a.getInteger(R.styleable.CircleProressView_startAngle,0);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.PiePercentView);
+        mArcTextColor = a.getColor(R.styleable.PiePercentView_arcTextColor,Color.BLACK);
+        mArcTextSize = a.getDimension(R.styleable.PiePercentView_arcTextSize,20f);
+        mStartAngle = a.getFloat(R.styleable.PiePercentView_startAngle,0f);
         a.recycle();
         init();
     }
 
     private void init() {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(mColor);
         mTextPain = new Paint();
         mTextPain.setAntiAlias(true);
-        mTextPain.setTextSize(26f);
-        mTextPain.setColor(Color.BLACK);
+        mTextPain.setTextSize(mArcTextSize);
+        mTextPain.setColor(mArcTextColor);
     }
 
     @Override
@@ -112,6 +113,7 @@ public class CircleProressView extends View {
         mRadius = Math.min(width,height)/2;
         canvas.translate(mWidth/2,mHeight/2);
         RectF rect = new RectF(-mRadius,-mRadius,mRadius,mRadius);
+        RectF rectf = new RectF(-mRadius/2,-mRadius/2,mRadius/2,mRadius/2);
         for(PieData pie:mData){
             mPaint.setColor(pie.getColor());
             canvas.drawArc(rect,mStartAngle,360*pie.getPercent(),true,mPaint);
@@ -120,12 +122,25 @@ public class CircleProressView extends View {
             path.close();
             String content = (int)(pie.getPercent()*100)+"%";
             float strWidth = mTextPain.measureText(content);
-            canvas.drawTextOnPath(content,path, (float) ((Math.PI*mRadius*pie.getPercent()*2-strWidth)/2),0,mTextPain);
+            canvas.drawTextOnPath(content,path, (float) ((Math.PI*mRadius*pie.getPercent()*2-strWidth)/2),-5,mTextPain);
+
+
+
+//            drawName(canvas,pie,rectf);
             mStartAngle+=360*pie.getPercent();
         }
+        canvas.drawRect(rectf,mPaint);
 
+    }
 
-
+    private void drawName(Canvas canvas,PieData pieData,RectF rectF){
+        Path path = new Path();
+        path.addArc(rectF,mStartAngle,360*pieData.getPercent());
+        path.close();
+        canvas.drawPath(path,mPaint);
+        String content = pieData.getName();
+        float strWidth = mTextPain.measureText(content);
+        canvas.drawTextOnPath(content,path, (float) ((Math.PI*mRadius*pieData.getPercent()*2-strWidth)/2),-5,mTextPain);
     }
 
 
@@ -143,6 +158,15 @@ public class CircleProressView extends View {
         private String name;
         private float percent;
         private int color;
+
+        public PieData() {
+        }
+
+        public PieData(String name, float percent, int color) {
+            this.name = name;
+            this.percent = percent;
+            this.color = color;
+        }
 
         public String getName() {
             return name;
