@@ -5,13 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,6 +111,11 @@ public class CircleProressView extends View {
             mPaint.setColor(pie.getColor());
             canvas.drawArc(rect,mStartAngle,360*pie.getPercent(),true,mPaint);
             mStartAngle+=360*pie.getPercent();
+            Path path = new Path();
+            path.addArc(rect,mStartAngle,360*pie.getPercent());
+            path.close();
+            mPaint.setTextSize(26f);
+            canvas.drawTextOnPath(pie.getName(),path,20,0,mPaint);
         }
 
 
@@ -119,7 +123,7 @@ public class CircleProressView extends View {
     }
 
 
-    public void setmStartAngle(int mStartAngle) {
+    public void setStartAngle(int mStartAngle) {
         this.mStartAngle = mStartAngle;
         invalidate();
     }

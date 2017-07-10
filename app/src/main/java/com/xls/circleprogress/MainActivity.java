@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCPV = (CircleProressView) findViewById(R.id.cpv);
-        mCPV.setmStartAngle(-90);
         mCPV.setmData(initData());
     }
 
