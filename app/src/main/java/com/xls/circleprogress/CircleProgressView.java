@@ -112,4 +112,6 @@ public class CircleProgressView extends View {
         this.mPercent = mPercent;
         postInvalidate();
     }
+
+    // 可以参考:http://www.cnblogs.com/travellife/p/Android-zi-ding-yi-View-yuan-xing-jin-du-tiao-zong.html
 }
