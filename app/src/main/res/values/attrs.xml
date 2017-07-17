@@ -4,6 +4,8 @@
         <attr name="startAngle" format="float"/>
         <attr name="arcTextSize" format="dimension"/>
         <attr name="arcTextColor" format="color"/>
+        <attr name="innerTextSize" format="dimension"/>
+        <attr name="innerTextColor" format="color"/>
     </declare-styleable>
 
 </resources>
