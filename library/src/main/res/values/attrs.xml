@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressView">
+        <attr name="startAngle" format="float"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="arcWidth" format="dimension"/>
+        <attr name="animatorTime" format="integer"/>
+        <attr name="centerTextSize" format="dimension"/>
+    </declare-styleable>
+
+</resources>

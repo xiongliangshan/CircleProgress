@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.xls.library.CircleProgressView;
+
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     private CircleProgressView mCircleView;
     private Handler mHander = new Handler();
     private Timer timer;
-    private int mPercent = 0;
+    private float value = 0f;
+    private Button randomBtn;
+    private Random random;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,26 +28,46 @@ public class MainActivity extends AppCompatActivity {
         mCircleView = (CircleProgressView) findViewById(R.id.my_circle);
         downloadBtn = (Button) findViewById(R.id.btn_moc_download);
         timer = new Timer();
-
+        random =new Random(System.currentTimeMillis());
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCircleView.reset();
+                mCircleView.setAnimatorTime(200);
                 if(timer==null){
                     timer = new Timer();
-                    mPercent = 0;
+                    value = 0;
                 }
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        mCircleView.setPercent(mPercent++);
-                        if(mPercent>100){
-                            timer.cancel();
-                            timer = null;
-                        }
+
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                                mCircleView.setValue(value);
+                                value+=mCircleView.getMaxValue()/100;
+                                if(value>mCircleView.getMaxValue()){
+                                    timer.cancel();
+                                    timer = null;
+                                }
+                           }
+                       });
                     }
-                },0,100);
+                },0,200);
+            }
+        });
+
+        randomBtn = (Button) findViewById(R.id.btn_random);
+        randomBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCircleView.setAnimatorTime(1000);
+                mCircleView.setValue(random.nextInt((int)mCircleView.getMaxValue()));
             }
         });
     }
+
+
 
 }
